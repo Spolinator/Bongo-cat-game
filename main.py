@@ -65,19 +65,30 @@ class buttons:
         arcade.start_render()
         #start render
 
+        playbtn_x = 560
+        playbtn_y = 350
+
         def draw_playbtn(self):
+            
             self.width = 397
             self.height = 87
             self.scale = 0.7
-        PLAYbtn = arcade.draw_texture_rectangle(560, 350, scale* self.play_btn)
-        LEVELSELECTbtn = arcade.draw_texture_rectangle(f, )
+            
+            PLAYbtn = arcade.draw_texture_rectangle(playbtn_x, playbtn_y, scale*width, scale*height, self.play_btn)
+
+        def draw_lvlslctbtn(self):
+            self.width = 397
+            self.height = 87
+            self.scale = 0.7
+            
+            LEVELSELECTbtn = arcade.draw_texture_rectangle(playbtn_x, playbtn_y-87-10, sclae*width, scale*height, self.lvlslct_btn)
+      
 
 
 def main_menu():
     game = Bongogame(SCREEN_WIDTH, SCREEN_HEIGHT)
     game.setup()
-    arcade.run()
-    time.sleep(5)        
+    arcade.run()        
 
 if __name__ == "__main_menu__":
     main_menu()
