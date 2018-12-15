@@ -14,29 +14,33 @@ class main_menu:
         arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, background)
 
     def draw_playbutton():
-        global playbuttoncenter_x
-        global playbuttoncenter_y
-        global playbuttonscale
-        global playbuttonwidth
-        global playbuttonheight
+        global playbtncenter_x
+        global playbtncenter_y
+        global playbtnscale
+        global playbtnwidth
+        global playbtnheight
         scale = 0.7
         width = 397
         height = 87
-        playbuttoncenter_x = SCREEN_WIDTH / 2
-        playbuttoncenter_y = SCREEN_HEIGHT / 2
-        playbuttonwidth = width * scale
-        playbuttonheight = height * scale            
-        play = arcade.load_texture("Assets/Main-menu/Buttons/PLAYbtn.png")
-        arcade.draw_texture_rectangle(playbuttoncenter_x, playbuttoncenter_y, playbuttonwidth, playbuttonheight, play)
-    def check_mouse_press_playbutton(x,y):
-        if x > (playbuttoncenter_x - playbuttonwidth / 2):
-            print("test")
+        playbtncenter_x = SCREEN_WIDTH / 2
+        playbtncenter_y = SCREEN_HEIGHT / 2
+        playbtnwidth = width * scale
+        playbtnheight = height * scale            
+        play = arcade.load_texture("Assets/Main-Menu/Buttons/PLAYbtn.png")
+        arcade.draw_texture_rectangle(playbtncenter_x, playbtncenter_y, playbtnwidth, playbtnheight, play)
+    def check_mouse_press_playbtn(x,y):
+        if x > (playbtncenter_x - playbtnwidth / 2) and x < (playbtncenter_x + playbtnwidth / 2):
+            if y < (playbtncenter_y + playbtnheight / 2) and y > (playbtncenter_y - playbtnheight/2):
+                print("I wanna play")
 
 
 
     def menusound():
-        menusound = arcade.load_sound("Assets/Fig_Leaf_Times_Two.mp3")
-        arcade.play_sound(menusound)
+        if volume_on == True:
+            menusound = arcade.load_sound("Assets/Fig_Leaf_Times_Two.mp3")
+            arcade.play_sound(menusound)
+        else:
+            menusound = None
 
     def draw_settingsbutton():
         scale = 0.7
@@ -47,16 +51,28 @@ class main_menu:
         arcade.draw_texture_rectangle(1150.5, 675, width*scale, height*scale, settingsbutton)                        
 
     def draw_volumebutton():
+        global volumebtnwidth
+        global volumebtnheight
+        global volumebtncenter_x
+        global volumebtncenter_y
         scale = 0.7
-        width = 87
-        height = 87
-
-        if volume_on == False:
-            volumeoff = arcade.load_texture("Assets/Main-Menu/Buttons/VOLUME-OFFbtn.png")
-            arcade.draw_texture_rectangle(1232.5,675, width*scale, height*scale, volumeoff)                                                    
-        else:
+        volumebtnwidth = 87
+        volumebtnheight = 87
+        volumebtncenter_x = 1232.5
+        volumebtncenter_y = 675
+        if volume_on == True:
             volumeon = arcade.load_texture("Assets/Main-Menu/Buttons/VOLUME-ONbtn.png")
-            arcade.draw_texture_rectangle(1232.5,675, width*scale, height*scale, volumeon)
+            arcade.draw_texture_rectangle(volumebtncenter_x, volumebtncenter_y, volumebtnwidth*scale, volumebtnheight*scale, volumeon)                                                              
+        else:
+            volumeoff = arcade.load_texture("Assets/Main-Menu/Buttons/VOLUME-OFFbtn.png")
+            arcade.draw_texture_rectangle(volumebtncenter_x, volumebtncenter_y, volumebtnwidth*scale, volumebtnheight*scale, volumeoff)  
+
+    def check_mouse_press_volumebtn(x,y):
+        if x > (volumebtncenter_x - volumebtnwidth / 2) and x < (volumebtncenter_x + volumebtnwidth / 2):
+            if y < (volumebtncenter_y + volumebtnheight / 2) and y > (volumebtncenter_y - volumebtnheight / 2):
+                print("Sound off")
+                volume_on == False
+        main_menu.draw_volumebutton()      
 
     def draw_selectcat():
         scale = 0.45
@@ -113,6 +129,10 @@ def draw_Main_Menu():
     main_menu.draw_settingsbutton()
     main_menu.draw_title() 
 
+def check_mouse_press(x,y):
+    main_menu.check_mouse_press_playbtn(x,y)
+    main_menu.check_mouse_press_volumebtn(x,y)
+
 
 class Bongogame(arcade.Window):
     def __init__(self, width, height, title):
@@ -120,12 +140,8 @@ class Bongogame(arcade.Window):
     def on_draw(self):
         draw_Main_Menu()
     def on_mouse_press(self, x,y, buttons, keymodifiers):
-        main_menu.check_mouse_press_playbutton(x,y)
-    """def on_update(self, delta_time):
-        main_menu.bongo_cat()
-    def set_update_rate(self, rate):
-        pyglet.clock.unschedule(self.on_update)
-        pyglet.clock.schedule_interval(self.on_update, 1/20)"""
+        check_mouse_press(x,y)
+
   
 
 
