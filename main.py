@@ -1,6 +1,7 @@
 import arcade
 import os
 import time
+import pyglet
 
 #constants
 SCREEN_WIDTH = 1280
@@ -13,19 +14,25 @@ class main_menu:
         arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, background)
 
     def draw_playbutton():
-        name = "playbutton"
+        global playbuttoncenter_x
+        global playbuttoncenter_y
+        global playbuttonscale
+        global playbuttonwidth
+        global playbuttonheight
         scale = 0.7
         width = 397
         height = 87
-        center_x = SCREEN_WIDTH / 2
-        center_y = SCREEN_HEIGHT / 2
-        buttonwidth = width * scale
-        buttonheight = height * scale            
+        playbuttoncenter_x = SCREEN_WIDTH / 2
+        playbuttoncenter_y = SCREEN_HEIGHT / 2
+        playbuttonwidth = width * scale
+        playbuttonheight = height * scale            
         play = arcade.load_texture("Assets/Main-menu/Buttons/PLAYbtn.png")
-        arcade.draw_texture_rectangle(center_x, center_y, buttonwidth, buttonheight, play)
-        def check_mouse_press_playbutton():
-            if x > center_x + width / 2 or x < center_x - width / 2 or y > center_y - height / 2 or y < center_y - height / 2:
-                print("I wanne play")
+        arcade.draw_texture_rectangle(playbuttoncenter_x, playbuttoncenter_y, playbuttonwidth, playbuttonheight, play)
+    def check_mouse_press_playbutton(x,y):
+        if x > (playbuttoncenter_x - playbuttonwidth / 2):
+            print("test")
+
+
 
     def menusound():
         menusound = arcade.load_sound("Assets/Fig_Leaf_Times_Two.mp3")
@@ -73,19 +80,28 @@ class main_menu:
         title = arcade.load_texture("Assets/Main-Menu/Bongocat-the-game.png")
         arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, 575, width*scale, height*scale, title)
         
-    def bongo_cat():
-        scale1 = 0.5
-        scale2 = 0.5
-        width = 582
-        height = 512
+    def bongo_cat1():
+        scale1 = 0.5      
+        width = 423
+        height = 423
 
-           
         bongocat = arcade.load_texture("Assets/Main-Menu/Bongocat1.png")
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2 + 180, SCREEN_HEIGHT // 2 + 200, width*scale1, height*scale1, bongocat, -5)
-        time.sleep(0.8)
+
+    def bongo_cat2():
+        scale2 = 0.5
+        width = 680
+        height = 689
+                
         bongocat = arcade.load_texture("Assets/Main-Menu/Bongocat2.png")
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2 + 150, SCREEN_HEIGHT // 2 + 500, width*scale2, height*scale2, bongocat, -5)
-        time.sleep(0.8)
+        
+    """def bongo_cat():
+        while True:
+            main_menu.bongo_cat1()
+            time.sleep(0.8)
+            main_menu.bongo_cat2()
+            time.sleep(0.8)     """                           
                                        
 
 def draw_Main_Menu():
@@ -95,7 +111,7 @@ def draw_Main_Menu():
     main_menu.draw_selectlevel()
     main_menu.draw_volumebutton()
     main_menu.draw_settingsbutton()
-    main_menu.draw_title()
+    main_menu.draw_title() 
 
 
 class Bongogame(arcade.Window):
@@ -104,10 +120,13 @@ class Bongogame(arcade.Window):
     def on_draw(self):
         draw_Main_Menu()
     def on_mouse_press(self, x,y, buttons, keymodifiers):
-        main_menu.draw_playbutton().check_mouse_press_playbutton()
-    def update(self, delta_time):
+        main_menu.check_mouse_press_playbutton(x,y)
+    """def on_update(self, delta_time):
         main_menu.bongo_cat()
-    
+    def set_update_rate(self, rate):
+        pyglet.clock.unschedule(self.on_update)
+        pyglet.clock.schedule_interval(self.on_update, 1/20)"""
+  
 
 
 def main():
