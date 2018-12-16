@@ -2,7 +2,6 @@ import arcade
 import os
 import time
 import pyglet
-import vlc
 import random
 
 #constants
@@ -113,7 +112,7 @@ class main_menu:
         bongocat2 = arcade.load_texture("Assets/Main-Menu/Bongocat2.png")
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2 + 280, SCREEN_HEIGHT // 2 + 268, width*scale2, height*scale2, bongocat2)"""
         
-    def bongo_cat():
+    """def bongo_cat():
         global bongocat1_load
         global bongocat2_load
         global bongocat
@@ -128,28 +127,33 @@ class main_menu:
             time.sleep(0.5)
             print("bongocat1")
         else:
-            """scale2 = 0.4
+            scale2 = 0.4
             width2 = 680
-            height2 = 689  """     
+            height2 = 689       
             bongocat = arcade.load_texture("Assets/Main-Menu/Bongocat3.png")
             arcade.draw_texture_rectangle(SCREEN_WIDTH // 2 + 275, SCREEN_HEIGHT // 2 + 258, width1*scale1, height1*scale1, bongocat)
-            """(SCREEN_WIDTH // 2 + 280, SCREEN_HEIGHT // 2 + 268, width2*scale2, height2*scale2, bongocat)"""
+            SCREEN_WIDTH // 2 + 280, SCREEN_HEIGHT // 2 + 268, width2*scale2, height2*scale2, bongocat)
             bongocat1_load = True
             bongocat2_load = False
             time.sleep(0.5)
-            print("bongocat2")
+            print("bongocat2")"""
 
     def menusound():
         global menusound_running
+        global menusoundplayer
         global menusound
+        global volume_on
         if volume_on == True and menusound_running == False:
-            menusound = vlc.MediaPlayer("Assets/Fig_Leaf_Times_Two.mp3")
-            menusound.play()
+            menusound = pyglet.media.load("Assets/Fig_Leaf_Times_Two.mp3")
+            menusoundplayer = pyglet.media.Player()
+            menusoundplayer.queue(menusound)
+            menusoundplayer.play()
+            menusoundplayer.volume = 0.4
             menusound_running = True
         elif volume_on == True and menusound_running == True:
             pass
         elif volume_on == False:
-            menusound.stop()
+            menusoundplayer.pause()
             menusound_running = False
 
     def check_mouse_press_playbtn(x,y):
@@ -174,7 +178,7 @@ class main_menu:
                     main_menu.menusound()
 
     def check_mouse_press_selectcatbtn(x,y):
-        if x > (selectcatbtncenter_x - selectcatbtnbtnwidth / 2) and x < (selectcatbtncenter_x + selectcatbtnwidth / 2):
+        if x > (selectcatbtncenter_x - selectcatbtnwidth / 2) and x < (selectcatbtncenter_x + selectcatbtnwidth / 2):
             if y < (selectcatbtncenter_y + selectcatbtnheight / 2) and y > (selectcatbtncenter_y - selectcatbtnheight / 2):
                 print("No cat Implented ☹")
                                                          
@@ -186,7 +190,7 @@ def draw_Main_Menu():
     main_menu.draw_settingsbutton()
     main_menu.draw_volumebutton()
     main_menu.draw_title()
-    main_menu.bongo_cat()
+    #main_menu.bongo_cat()
 
 def check_mouse_press(x,y):
     main_menu.check_mouse_press_playbtn(x,y)
@@ -195,9 +199,9 @@ def check_mouse_press(x,y):
     main_menu.check_mouse_press_selectcatbtn(x,y)
 
 def check_update():
-        main_menu.draw_volumebutton()
-        main_menu.menusound()
-        main_menu.bongo_cat()
+    main_menu.draw_volumebutton()
+    main_menu.menusound()
+    #main_menu.bongo_cat()
 
 class Bongogame(arcade.Window):
     def __init__(self, width, height, title):
@@ -211,7 +215,6 @@ class Bongogame(arcade.Window):
 
 def main():
     window = Bongogame(SCREEN_WIDTH, SCREEN_HEIGHT, "Bongo Cat: The Game")
-    Bongogame.on_update()
     arcade.run()
 
 main()

@@ -1,6 +1,0 @@
-draw_playbtn
-draw_lvlslctbtn
-draw_slctcatbtn
-draw_settingsbtn
-draw_volumebtnON
-draw_volumebtnOFF
