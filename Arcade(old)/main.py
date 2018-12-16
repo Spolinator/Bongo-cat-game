@@ -12,7 +12,9 @@ menusound_running = False
 bongocat1_load = True
 bongocat2_load = False
 
+
 class main_menu:
+
     def draw_background():
         background = arcade.load_texture("Assets/background0.png")
         arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, background)
@@ -52,7 +54,8 @@ class main_menu:
         global volumebtnheight
         global volumebtncenter_x
         global volumebtncenter_y
-        scale = 0.7
+        global volumebtnscale
+        volumebtnscale = 0.7
         volumebtnwidth = 87
         volumebtnheight = 87
         volumebtncenter_x = 1232.5
@@ -60,10 +63,10 @@ class main_menu:
         
         if volume_on == True:
             volumeon = arcade.load_texture("Assets/Main-Menu/Buttons/VOLUME-ONbtn.png")
-            arcade.draw_texture_rectangle(volumebtncenter_x, volumebtncenter_y, volumebtnwidth*scale, volumebtnheight*scale, volumeon)                                                         
+            arcade.draw_texture_rectangle(volumebtncenter_x, volumebtncenter_y, volumebtnwidth*volumebtnscale, volumebtnheight*volumebtnscale, volumeon)                                                         
         elif volume_on == False:
             volumeoff = arcade.load_texture("Assets/Main-Menu/Buttons/VOLUME-OFFbtn.png")
-            arcade.draw_texture_rectangle(volumebtncenter_x, volumebtncenter_y, volumebtnwidth*scale, volumebtnheight*scale, volumeoff)
+            arcade.draw_texture_rectangle(volumebtncenter_x, volumebtncenter_y, volumebtnwidth*volumebtnscale, volumebtnheight*volumebtnscale, volumeoff)
         else:
             pass
 
@@ -82,11 +85,18 @@ class main_menu:
         arcade.draw_texture_rectangle(selectcatbtncenter_x, selectcatbtncenter_y, selectcatbtnwidth*selectcatbtnscale, selectcatbtnheight*selectcatbtnscale, selectcat)
 
     def draw_selectlevel():
-        scale = 0.45
-        width = 397
-        height = 87
+        global selectlvlbtnscale
+        global selectlvlbtnwidth
+        global selectlvlbtnheight
+        global selectlvlbtncenter_x
+        global selectlvlbtncenter_y
+        selectlvlbtnscale = 0.45
+        selectlvlbtnwidth = 397
+        selectlvlbtnheight = 87
+        selectlvlbtncenter_x = SCREEN_WIDTH / 2 + 94.325
+        selectlvlbtncenter_y = SCREEN_HEIGHT / 2 - 60.025
         selectlevel = arcade.load_texture("Assets/Main-Menu/Buttons/LEVELSELECTbtn.png")
-        arcade.draw_texture_rectangle(SCREEN_WIDTH / 2 + 94.325, SCREEN_HEIGHT / 2 - 60.025, width*scale, height*scale, selectlevel)                                
+        arcade.draw_texture_rectangle(selectlvlbtncenter_x, selectlvlbtncenter_y, selectlvlbtnwidth*selectlvlbtnscale, selectlvlbtnheight*selectlvlbtnscale, selectlevel)                                
 
     def draw_title():
         scale = 0.85
@@ -96,10 +106,11 @@ class main_menu:
         title = arcade.load_texture("Assets/Main-Menu/Bongocat-the-game.png")
         arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, 575, width*scale, height*scale, title)
         
-    """def bongo_cat1():
+    '''def bongo_cat1():
         scale1 = 0.5      
         width = 423
         height = 423
+        global bongocat1
 
         bongocat1 = arcade.load_texture("Assets/Main-Menu/Bongocat1.png")
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2 + 275, SCREEN_HEIGHT // 2 + 258, width*scale1, height*scale1, bongocat1)
@@ -108,35 +119,32 @@ class main_menu:
         scale2 = 0.4
         width = 680
         height = 689
-                
+        global bongocat2 
+
         bongocat2 = arcade.load_texture("Assets/Main-Menu/Bongocat2.png")
-        arcade.draw_texture_rectangle(SCREEN_WIDTH // 2 + 280, SCREEN_HEIGHT // 2 + 268, width*scale2, height*scale2, bongocat2)"""
+        arcade.draw_texture_rectangle(SCREEN_WIDTH // 2 + 280, SCREEN_HEIGHT // 2 + 268, width*scale2, height*scale2, bongocat2)'''
         
-    """def bongo_cat():
-        global bongocat1_load
-        global bongocat2_load
+    def bongo_cat():
         global bongocat
-        scale1 = 0.5      
+        global bongosprite
+        bongosprite = arcade.SpriteList
+        scale1 = 0.5
         width1 = 423
-        height1 = 423 
-        if bongocat1_load == True and bongocat2_load == False:         
-            bongocat = arcade.load_texture("Assets/Main-Menu/Bongocat1.png")
-            arcade.draw_texture_rectangle(SCREEN_WIDTH // 2 + 275, SCREEN_HEIGHT // 2 + 258, width1*scale1, height1*scale1, bongocat)
-            bongocat1_load = False
-            bongocat2_load = True
-            time.sleep(0.5)
-            print("bongocat1")
-        else:
-            scale2 = 0.4
-            width2 = 680
-            height2 = 689       
-            bongocat = arcade.load_texture("Assets/Main-Menu/Bongocat3.png")
-            arcade.draw_texture_rectangle(SCREEN_WIDTH // 2 + 275, SCREEN_HEIGHT // 2 + 258, width1*scale1, height1*scale1, bongocat)
-            SCREEN_WIDTH // 2 + 280, SCREEN_HEIGHT // 2 + 268, width2*scale2, height2*scale2, bongocat)
-            bongocat1_load = True
-            bongocat2_load = False
-            time.sleep(0.5)
-            print("bongocat2")"""
+        height1 = 423
+
+        scale2 = 0.4
+        width = 680
+        height = 689
+
+        bongocat = arcade.AnimatesTimeSprite()
+        bongocat.center_x = SCREEN_WIDTH // 2 + 275
+        bongocat.center_y = SCREEN_HEIGHT // 2 + 258
+
+        bongocat.textures = []
+        bongocat.textures.append(arcade.load_texture("Assets/Main-Menu/Bongocat1.png", scale = scale1))
+        bongocat.textures.append(arcade.load_texture("Assets/Main-Menu/Bongocat2.png", scale = scale2))
+        
+        bongosprite.append(bongocat)
 
     def menusound():
         global menusound_running
@@ -162,14 +170,14 @@ class main_menu:
                 print("Never gonna give you up")
     
     def check_mouse_press_settingsbtn(x,y):
-        if x > (settingsbtncenter_x - settingsbtnwidth / 2) and x < (settingsbtncenter_x + settingsbtnwidth / 2):
-            if y < (settingsbtncenter_y + settingsbtnheight / 2) and y > (settingsbtncenter_y - settingsbtnheight/2):
+        if x > (settingsbtncenter_x - settingsbtnwidth * settingsbtnscale / 2) and x < (settingsbtncenter_x + settingsbtnwidth * selectcatbtnscale / 2):
+            if y < (settingsbtncenter_y + settingsbtnheight * settingsbtnscale / 2) and y > (settingsbtncenter_y - settingsbtnheight * selectcatbtnscale / 2):
                 print("Settings")
                 
     def check_mouse_press_volumebtn(x,y):
         global volume_on
-        if x > (volumebtncenter_x - volumebtnwidth / 2) and x < (volumebtncenter_x + volumebtnwidth / 2):
-            if y < (volumebtncenter_y + volumebtnheight / 2) and y > (volumebtncenter_y - volumebtnheight / 2):
+        if x > (volumebtncenter_x - volumebtnwidth * volumebtnscale / 2) and x < (volumebtncenter_x + volumebtnwidth * volumebtnscale / 2):
+            if y < (volumebtncenter_y + volumebtnheight * volumebtnscale / 2) and y > (volumebtncenter_y - volumebtnheight * volumebtnscale / 2):
                 if volume_on == True: 
                     volume_on = False
                     main_menu.menusound()
@@ -178,10 +186,15 @@ class main_menu:
                     main_menu.menusound()
 
     def check_mouse_press_selectcatbtn(x,y):
-        if x > (selectcatbtncenter_x - selectcatbtnwidth / 2) and x < (selectcatbtncenter_x + selectcatbtnwidth / 2):
-            if y < (selectcatbtncenter_y + selectcatbtnheight / 2) and y > (selectcatbtncenter_y - selectcatbtnheight / 2):
-                print("No cat Implented ☹")
-                                                         
+        if x > (selectcatbtncenter_x - selectcatbtnwidth * selectcatbtnscale / 2) and x < (selectcatbtncenter_x + selectcatbtnwidth * selectcatbtnscale / 2):
+            if y < (selectcatbtncenter_y + selectcatbtnheight * selectcatbtnscale / 2) and y > (selectcatbtncenter_y - selectcatbtnheight * selectcatbtnscale / 2):
+                print("No cat Implented")
+
+    def check_mouse_press_selectlvlbtn(x,y):
+        if x > (selectlvlbtncenter_x - selectlvlbtnwidth * selectlvlbtnscale / 2) and x < (selectlvlbtncenter_x + selectlvlbtnwidth * selectlvlbtnscale / 2):
+            if y < (selectlvlbtncenter_y + selectlvlbtnheight * selectlvlbtnscale / 2) and y > (selectlvlbtncenter_y - selectlvlbtnheight * selectlvlbtnscale / 2):
+                print("No levels made")
+
 def draw_Main_Menu():
     main_menu.draw_background()
     main_menu.draw_playbutton()
@@ -190,31 +203,43 @@ def draw_Main_Menu():
     main_menu.draw_settingsbutton()
     main_menu.draw_volumebutton()
     main_menu.draw_title()
-    #main_menu.bongo_cat()
+    
 
 def check_mouse_press(x,y):
     main_menu.check_mouse_press_playbtn(x,y)
     main_menu.check_mouse_press_volumebtn(x,y)
     main_menu.check_mouse_press_settingsbtn(x,y)
     main_menu.check_mouse_press_selectcatbtn(x,y)
+    main_menu.check_mouse_press_selectlvlbtn(x,y)
 
 def check_update():
     main_menu.draw_volumebutton()
     main_menu.menusound()
-    #main_menu.bongo_cat()
+    bongosprite.update()
+    bongosprite.update_animation()
 
 class Bongogame(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
+        global bongosprite
+        bongosprite = None
+    def setup(self):
+        global bongosprite
+        bongosprite = arcade.SpriteList()
     def on_draw(self):
+        global bongosprite
+        arcade.start_render()
         draw_Main_Menu()
+        bongosprite.draw()
     def on_mouse_press(self, x,y, buttons, keymodifiers):
-        check_mouse_press(x,y)
+            check_mouse_press(x,y)
     def on_update(self, delta_time):
-        check_update()
+        for i in range(60):
+            check_update()
 
 def main():
     window = Bongogame(SCREEN_WIDTH, SCREEN_HEIGHT, "Bongo Cat: The Game")
+    window.setup()
     arcade.run()
 
 main()
